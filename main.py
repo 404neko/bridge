@@ -126,7 +126,7 @@ def r():
     for char in uid:
         if char not in 'qwertyuioplkjhgfdsazxcvbnm0123456789':
             return redirect(url_for('index'))
-    ip = request.remote_addr
+    ip = request.headers.get('X-Real-IP','127.0.0.1')
     ua = ''
     for tuple_ in request.headers:
         if tuple_[0].lower()=='user-agent':
