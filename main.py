@@ -103,6 +103,20 @@ def a():
         new_url_info = Pool(time=datetime.datetime.now(),uid=hash_,url=url,title=title,content='')
         new_url_info.save()
         return LINK_SITE % (DOMAIN+'r?uid='+hash_,DOMAIN+'r?uid='+hash_,)
+    else:
+        url = request.args.get('url','')
+        if url=='':
+            return '500'
+        hash_ = uhash(url)
+        content = request.get(url)
+        try:
+            title = content.content.split('<title>')[1].split('</title>')[0]
+        except:
+            title = ''
+        #content
+        new_url_info = Pool(time=datetime.datetime.now(),uid=hash_,url=url,title=title,content='')
+        new_url_info.save()
+        return LINK_SITE % (DOMAIN+'r?uid='+hash_,DOMAIN+'r?uid='+hash_,)
 
 @app.route('/r',methods=['GET'])
 def r():
