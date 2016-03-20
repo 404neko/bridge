@@ -13,6 +13,8 @@ from flask import url_for
 from flask import redirect
 from flask import session
 
+import requests
+
 sys.path.append('..')
 from mod.database import *
 import mod.whois
@@ -108,9 +110,9 @@ def a():
         if url=='':
             return '500'
         hash_ = uhash(url)
-        content = request.get(url)
+        respon = requests.get(url)
         try:
-            title = content.content.split('<title>')[1].split('</title>')[0]
+            title = respon.content.split('<title>')[1].split('</title>')[0]
         except:
             title = ''
         #content
