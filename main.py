@@ -59,6 +59,20 @@ def uhash(password,salt=SALT):
     Hash.update(pre_hash)
     return Hash.hexdigest()
 
+
+@app.before_request
+def _db_connect():
+    database.connect()
+
+@app.teardown_request
+def _db_close(exc):
+    if not database.is_closed():
+        database.close()
+
+@app.teardown_appcontext
+def close_database(error):
+    database.close()
+
 @app.route('/w')
 def w():
     #@content = 
@@ -144,4 +158,4 @@ def r():
     return '404'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000,debug=0)
+    app.run(host='0.0.0.0',port=5000,debug=1)
